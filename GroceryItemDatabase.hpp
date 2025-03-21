@@ -3,6 +3,7 @@
 ///////////////////////// TO-DO (1) //////////////////////////////
 #include <string>
 #include <map>
+#include <iomanip>        // <-- REQUIRED to fix std::quoted error
 #include "GroceryItem.hpp"
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
