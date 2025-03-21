@@ -1,11 +1,9 @@
 #pragma once
 
 ///////////////////////// TO-DO (1) //////////////////////////////
+#include <vector>
 #include <string>
-#include <map>
-#include <fstream>
-#include <stdexcept>
-#include <iomanip>
+#include <cstddef>  // for size_t
 #include "GroceryItem.hpp"
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
@@ -30,6 +28,6 @@ class GroceryItemDatabase
     GroceryItemDatabase & operator=( const GroceryItemDatabase & ) = delete;    // intentionally prohibit copy assignments
 
     ///////////////////////// TO-DO (2) //////////////////////////////
-std::map<std::string, GroceryItem> _data;
+std::vector<GroceryItem> _data;
     /////////////////////// END-TO-DO (2) ////////////////////////////
 };
