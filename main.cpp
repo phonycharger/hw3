@@ -241,7 +241,7 @@ while (!checkoutCounter.empty()) {
         std::cout << *found << '\n';
     } else {
         std::cout << "UPC("
-                  << std::quoted(frontItem.upcCode())
+                  << '"' << frontItem.upcCode() << '"'
                   << ") not found => free!\n";
     }
     checkoutCounter.pop();
