@@ -134,9 +134,7 @@ GroceryItem::~GroceryItem() noexcept = default;
 
 // upcCode() const    (L-value objects)
 ///////////////////////// TO-DO (8) //////////////////////////////
-std::string const & GroceryItem::upcCode() const & {
-    return _upcCode;
-}
+return _upcCode;
 /////////////////////// END-TO-DO (8) ////////////////////////////
 
 
@@ -155,18 +153,14 @@ return _brandName;
 
 // productName() const    (L-value objects)
 ///////////////////////// TO-DO (10) //////////////////////////////
-std::string const & GroceryItem::productName() const & {
-    return _productName;
-}
+return _productName;
 /////////////////////// END-TO-DO (10) ////////////////////////////
 
 
 
 // price() const    (L-value and, because there is no R-value overload, R-value objects)
 ///////////////////////// TO-DO (11) //////////////////////////////
-double GroceryItem::price() const & {
-    return _price;
-}
+return _price;
 /////////////////////// END-TO-DO (11) ////////////////////////////
 
 
@@ -174,9 +168,7 @@ double GroceryItem::price() const & {
 
 // upcCode()    (R-value objects)
 ///////////////////////// TO-DO (12) //////////////////////////////
-std::string GroceryItem::upcCode() && {
-    return std::move(_upcCode);
-}
+return std::move(_upcCode);
 /////////////////////// END-TO-DO (12) ////////////////////////////
 
 
@@ -184,9 +176,7 @@ std::string GroceryItem::upcCode() && {
 
 // brandName()    (R-value objects)
 ///////////////////////// TO-DO (13) //////////////////////////////
-std::string GroceryItem::brandName() && {
-    return std::move(_brandName);
-}
+return std::move(_brandName);
 /////////////////////// END-TO-DO (13) ////////////////////////////
 
 
@@ -225,10 +215,8 @@ return *this;
 
 // brandName(...)
 ///////////////////////// TO-DO (16) //////////////////////////////
-GroceryItem & GroceryItem::brandName(std::string newBrandName) & {
-    _brandName = std::move(newBrandName);
-    return *this;
-}
+_brandName = std::move(newBrandName);
+return *this;
 /////////////////////// END-TO-DO (16) ////////////////////////////
 
 
@@ -237,10 +225,8 @@ GroceryItem & GroceryItem::brandName(std::string newBrandName) & {
 // productName(...)
 GroceryItem & GroceryItem::productName( std::string newProductName ) &
 ///////////////////////// TO-DO (17) //////////////////////////////
-{
-  _productName = std::move(newProductName);
-  return *this;
-}
+_productName = std::move(newProductName);
+return *this;
 /////////////////////// END-TO-DO (17) ////////////////////////////
 
 
@@ -248,11 +234,8 @@ GroceryItem & GroceryItem::productName( std::string newProductName ) &
 
 // price(...)
 ///////////////////////// TO-DO (18) //////////////////////////////
-GroceryItem & GroceryItem::price(double newPrice) &
-{
-    _price = newPrice;
-    return *this;
-}
+_price = newPrice;
+return *this;
 /////////////////////// END-TO-DO (18) ////////////////////////////
 
 
@@ -353,13 +336,13 @@ std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
 char delimiter{};
 GroceryItem working;
 
-is >> std::quoted(working._upcCode) >> delimiter
-   >> std::quoted(working._brandName) >> delimiter
-   >> std::quoted(working._productName) >> delimiter
-   >> working._price;
+stream >> std::quoted(working._upcCode) >> delimiter
+       >> std::quoted(working._brandName) >> delimiter
+       >> std::quoted(working._productName) >> delimiter
+       >> working._price;
 
-if (is) item = std::move(working);
-return is;
+if (stream) groceryItem = std::move(working);
+return stream;
   /////////////////////// END-TO-DO (21) ////////////////////////////
 }
 
@@ -370,9 +353,9 @@ return is;
 std::ostream & operator<<( std::ostream & stream, const GroceryItem & groceryItem )
 {
   ///////////////////////// TO-DO (22) //////////////////////////////
-return os << std::quoted(item.upcCode()) << ", "
-          << std::quoted(item.brandName()) << ", "
-          << std::quoted(item.productName()) << ", "
-          << item.price();
+return stream << std::quoted(groceryItem.upcCode())   << ", "
+              << std::quoted(groceryItem.brandName()) << ", "
+              << std::quoted(groceryItem.productName()) << ", "
+              << groceryItem.price();
   /////////////////////// END-TO-DO (22) ////////////////////////////
 }
