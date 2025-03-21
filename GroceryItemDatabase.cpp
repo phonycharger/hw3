@@ -57,7 +57,10 @@ GroceryItemDatabase::GroceryItemDatabase( const std::string & filename )
   //
 
   ///////////////////////// TO-DO (2) //////////////////////////////
-std::map<std::string, GroceryItem> _data;
+  GroceryItem item;
+  while (fin >> item) {
+    _data[item.upcCode()] = std::move(item);
+  }
   /////////////////////// END-TO-DO (2) ////////////////////////////
 
   // Note:  The file is intentionally not explicitly closed.  The file is closed when fin goes out of scope - for whatever
@@ -74,14 +77,28 @@ std::map<std::string, GroceryItem> _data;
 
 
 ///////////////////////// TO-DO (3) //////////////////////////////
-  /// Implement the rest of the interface, including functions find (recursively) and size
-  ///
-  /// See the SinglyLinkedList's extended interface in our Sequence Container Implementation Examples (SinglyLinkedList.hpp) for a
-  /// recursive find function example. Instead of starting at the head of the list, you want to start at the beginning of your data
-  /// store.
-  ///
-  /// Programming note:  An O(n) operation, like searching an unsorted vector, would not generally be implemented recursively.  The
-  ///                    depth of recursion may be greater than the program's function call stack size.  But for this programming
-  ///                    exercise, getting familiar with recursion is a goal.
+namespace
+{
+  // A simple recursive helper to find a UPC in our map
+  GroceryItem * findRecursive(std::map<std::string, GroceryItem>::iterator current,
+                              std::map<std::string, GroceryItem>::iterator end,
+                              std::string const & upc)
+  {
+    if (current == end) return nullptr;              // base case: not found
+    if (current->first == upc) return &current->second;  // base case: found
+    return findRecursive(std::next(current), end, upc);  // recursive case
+  }
+}
 
+GroceryItem * GroceryItemDatabase::find(const std::string & upc)
+{
+  // Start recursion from _data.begin() to _data.end()
+  return findRecursive(_data.begin(), _data.end(), upc);
+}
+
+std::size_t GroceryItemDatabase::size() const
+{
+  // Return total number of grocery items in the database
+  return _data.size();
+}
 /////////////////////// END-TO-DO (3) ////////////////////////////
