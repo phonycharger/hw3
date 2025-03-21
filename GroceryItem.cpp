@@ -51,6 +51,7 @@ while (fin >> item) {
     _data[item.upcCode()] = std::move(item);
 }
 
+// define size() so we can link successfully
 std::size_t GroceryItemDatabase::size() const {
     return _data.size();
 }
