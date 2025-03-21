@@ -28,7 +28,8 @@ namespace    // unnamed, anonymous namespace
   constexpr bool floating_point_is_equal( T const lhs,  U const rhs,  long double const EPSILON1 = /*1e-12L*/ 1e-4L,  long double const EPSILON2 = 1e-8L ) noexcept
   {
     ///////////////////////// TO-DO (1) //////////////////////////////
-    return std::abs(lhs - rhs) < std::max(EPSILON1, EPSILON2 * std::max(std::abs(lhs), std::abs(rhs)));
+return std::abs(lhs - rhs)
+       < std::max(EPSILON1, EPSILON2 * std::max(std::abs(lhs), std::abs(rhs)));
     /////////////////////// END-TO-DO (1) ////////////////////////////
   }
 }    // unnamed, anonymous namespace
@@ -45,7 +46,10 @@ namespace    // unnamed, anonymous namespace
 
 // Default and Conversion Constructor
 ///////////////////////// TO-DO (2) //////////////////////////////
-GroceryItem::GroceryItem(std::string productName, std::string brandName, std::string upcCode, double price)
+GroceryItem::GroceryItem(std::string productName,
+                         std::string brandName,
+                         std::string upcCode,
+                         double price)
   : _upcCode(std::move(upcCode)),
     _brandName(std::move(brandName)),
     _productName(std::move(productName)),
@@ -87,10 +91,10 @@ GroceryItem & GroceryItem::operator=( GroceryItem const & rhs ) &
 {
   ///////////////////////// TO-DO (5) //////////////////////////////
 if (this != &rhs) {
-    _upcCode = rhs._upcCode;
-    _brandName = rhs._brandName;
+    _upcCode     = rhs._upcCode;
+    _brandName   = rhs._brandName;
     _productName = rhs._productName;
-    _price = rhs._price;
+    _price       = rhs._price;
 }
 return *this;
   /////////////////////// END-TO-DO (5) ////////////////////////////
@@ -101,13 +105,13 @@ return *this;
 
 // Move Assignment Operator
 ///////////////////////// TO-DO (6) //////////////////////////////
-GroceryItem & GroceryItem::operator=( GroceryItem && rhs ) & noexcept
-{
-    if (this != &rhs) {
-        // move logic here
-    }
-    return *this;
+if (this != &rhs) {
+    _upcCode     = std::move(rhs._upcCode);
+    _brandName   = std::move(rhs._brandName);
+    _productName = std::move(rhs._productName);
+    _price       = rhs._price;
 }
+return *this;
 /////////////////////// END-TO-DO (6) ////////////////////////////
 
 
@@ -292,13 +296,14 @@ std::weak_ordering GroceryItem::operator<=>( const GroceryItem & rhs ) const noe
   // (sorted) by UPC code, product name, brand name, then price.
 
   ///////////////////////// TO-DO (19) //////////////////////////////
-if (auto comparisonResult = _upcCode <=> rhs._upcCode; comparisonResult != 0) return comparisonResult;
-if (auto comparisonResult = _productName <=> rhs._productName; comparisonResult != 0) return comparisonResult;
-if (auto comparisonResult = _brandName <=> rhs._brandName; comparisonResult != 0) return comparisonResult;
+if (auto comparisonResult = _upcCode <=> rhs._upcCode; comparisonResult != 0)
+    return comparisonResult;
+if (auto comparisonResult = _productName <=> rhs._productName; comparisonResult != 0)
+    return comparisonResult;
+if (auto comparisonResult = _brandName <=> rhs._brandName; comparisonResult != 0)
+    return comparisonResult;
 
-// For the floating point price, use our floating_point_is_equal
-if (floating_point_is_equal(_price, rhs._price))
-{
+if (floating_point_is_equal(_price, rhs._price)) {
     return std::weak_ordering::equivalent;
 }
 return (_price < rhs._price) ? std::weak_ordering::less : std::weak_ordering::greater;
@@ -315,15 +320,11 @@ bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept
   // quickest and then the most likely to be different first.
 
   ///////////////////////// TO-DO (20) //////////////////////////////
-bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept
-{
-    // The code reviewer notes: put _price (an O(1) floating comparison) first, 
-    // then _upcCode, then _brandName, then _productName (since comparing strings can be O(n)).
-    return floating_point_is_equal(_price, rhs._price)
-        && _upcCode     == rhs._upcCode
-        && _brandName   == rhs._brandName
-        && _productName == rhs._productName;
-}
+if (!floating_point_is_equal(_price, rhs._price)) return false;
+if (_upcCode     != rhs._upcCode)     return false;
+if (_brandName   != rhs._brandName)   return false;
+if (_productName != rhs._productName) return false;
+return true;
   /////////////////////// END-TO-DO (20) ////////////////////////////
 }
 
@@ -349,17 +350,16 @@ std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
 
   char delimiter = '\x{00}';                                          // C++23 delimited escape sequence for the character whose value is zero (the null character)
   ///////////////////////// TO-DO (21) //////////////////////////////
-(void)delimiter;  // Silence unused variable warning
-
+char delimiter{};
 GroceryItem working;
-char comma;
-stream >> std::quoted(working._upcCode) >> comma
-       >> std::quoted(working._brandName) >> comma
-       >> std::quoted(working._productName) >> comma
-       >> working._price;
 
-if (stream) groceryItem = std::move(working);
-return stream;
+is >> std::quoted(working._upcCode) >> delimiter
+   >> std::quoted(working._brandName) >> delimiter
+   >> std::quoted(working._productName) >> delimiter
+   >> working._price;
+
+if (is) item = std::move(working);
+return is;
   /////////////////////// END-TO-DO (21) ////////////////////////////
 }
 
@@ -370,9 +370,9 @@ return stream;
 std::ostream & operator<<( std::ostream & stream, const GroceryItem & groceryItem )
 {
   ///////////////////////// TO-DO (22) //////////////////////////////
-  return stream << std::quoted(groceryItem.upcCode()) << ", "
-                << std::quoted(groceryItem.brandName()) << ", "
-                << std::quoted(groceryItem.productName()) << ", "
-                << groceryItem.price();
+return os << std::quoted(item.upcCode()) << ", "
+          << std::quoted(item.brandName()) << ", "
+          << std::quoted(item.productName()) << ", "
+          << item.price();
   /////////////////////// END-TO-DO (22) ////////////////////////////
 }
