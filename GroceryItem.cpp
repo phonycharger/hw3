@@ -46,10 +46,11 @@ return std::abs(lhs - rhs) < std::max(EPSILON1, EPSILON2 * std::max(std::abs(lhs
 // Default and Conversion Constructor
 ///////////////////////// TO-DO (2) //////////////////////////////
 GroceryItem::GroceryItem(std::string productName, std::string brandName, std::string upcCode, double price)
-  : _productName(std::move(productName)), 
-    _brandName(std::move(brandName)), 
-    _upcCode(std::move(upcCode)), 
+  : _upcCode(std::move(upcCode)),
+    _brandName(std::move(brandName)),
+    _productName(std::move(productName)),
     _price(price)
+{}
 /////////////////////// END-TO-DO (2) ////////////////////////////
 {}                                                                    // Avoid setting values in constructor's body (when possible)
 
@@ -291,11 +292,15 @@ std::weak_ordering GroceryItem::operator<=>( const GroceryItem & rhs ) const noe
   // (sorted) by UPC code, product name, brand name, then price.
 
   ///////////////////////// TO-DO (19) //////////////////////////////
-std::weak_ordering GroceryItem::operator<=>(const GroceryItem & rhs) const noexcept {
-  if (auto result = _upcCode <=> rhs._upcCode; result != 0) return result;
-  if (auto result = _productName <=> rhs._productName; result != 0) return result;
-  if (auto result = _brandName <=> rhs._brandName; result != 0) return result;
-  return floating_point_is_equal(_price, rhs._price) ? std::weak_ordering::equivalent : _price <=> rhs._price;
+std::weak_ordering GroceryItem::operator<=>(const GroceryItem & rhs) const noexcept
+{
+    if (auto result = _upcCode <=> rhs._upcCode; result != 0) return result;
+    if (auto result = _productName <=> rhs._productName; result != 0) return result;
+    if (auto result = _brandName <=> rhs._brandName; result != 0) return result;
+    return floating_point_is_equal(_price, rhs._price) 
+           ? std::weak_ordering::equivalent 
+           : _price <=> rhs._price;
+}
   /////////////////////// END-TO-DO (19) ////////////////////////////
 }
 
@@ -309,11 +314,13 @@ bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept
   // quickest and then the most likely to be different first.
 
   ///////////////////////// TO-DO (20) //////////////////////////////
-bool GroceryItem::operator==(const GroceryItem & rhs) const noexcept {
-  return _upcCode == rhs._upcCode &&
-         _brandName == rhs._brandName &&
-         _productName == rhs._productName &&
-         floating_point_is_equal(_price, rhs._price);
+bool GroceryItem::operator==(const GroceryItem & rhs) const noexcept
+{
+    return _upcCode == rhs._upcCode &&
+           _brandName == rhs._brandName &&
+           _productName == rhs._productName &&
+           floating_point_is_equal(_price, rhs._price);
+}
   /////////////////////// END-TO-DO (20) ////////////////////////////
 }
 
