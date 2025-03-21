@@ -101,12 +101,12 @@ return *this;
 
 // Move Assignment Operator
 ///////////////////////// TO-DO (6) //////////////////////////////
-GroceryItem & GroceryItem::operator=(GroceryItem && rhs) & noexcept {
-  _upcCode = std::move(rhs._upcCode);
-  _brandName = std::move(rhs._brandName);
-  _productName = std::move(rhs._productName);
-  _price = rhs._price;
-  return *this;
+GroceryItem & GroceryItem::operator=( GroceryItem && rhs ) & noexcept
+{
+    if (this != &rhs) {
+        // move logic here
+    }
+    return *this;
 }
 /////////////////////// END-TO-DO (6) ////////////////////////////
 
@@ -292,9 +292,9 @@ std::weak_ordering GroceryItem::operator<=>( const GroceryItem & rhs ) const noe
   // (sorted) by UPC code, product name, brand name, then price.
 
   ///////////////////////// TO-DO (19) //////////////////////////////
-if (auto r = _upcCode <=> rhs._upcCode; r != 0) return r;   // strings return std::strong_ordering, convertible to weak
-if (auto r = _productName <=> rhs._productName; r != 0) return r;
-if (auto r = _brandName <=> rhs._brandName; r != 0) return r;
+if (auto comparisonResult = _upcCode <=> rhs._upcCode; comparisonResult != 0) return comparisonResult;
+if (auto comparisonResult = _productName <=> rhs._productName; comparisonResult != 0) return comparisonResult;
+if (auto comparisonResult = _brandName <=> rhs._brandName; comparisonResult != 0) return comparisonResult;
 
 // For the floating point price, use our floating_point_is_equal
 if (floating_point_is_equal(_price, rhs._price))
@@ -315,10 +315,15 @@ bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept
   // quickest and then the most likely to be different first.
 
   ///////////////////////// TO-DO (20) //////////////////////////////
-  return    _upcCode     == rhs._upcCode
-         && _brandName   == rhs._brandName
-         && _productName == rhs._productName
-         && floating_point_is_equal(_price, rhs._price);
+bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept
+{
+    // The code reviewer notes: put _price (an O(1) floating comparison) first, 
+    // then _upcCode, then _brandName, then _productName (since comparing strings can be O(n)).
+    return floating_point_is_equal(_price, rhs._price)
+        && _upcCode     == rhs._upcCode
+        && _brandName   == rhs._brandName
+        && _productName == rhs._productName;
+}
   /////////////////////// END-TO-DO (20) ////////////////////////////
 }
 
