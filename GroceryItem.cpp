@@ -244,7 +244,8 @@ GroceryItem & GroceryItem::productName( std::string newProductName ) &
 
 // price(...)
 ///////////////////////// TO-DO (18) //////////////////////////////
-GroceryItem & GroceryItem::price(double newPrice) & {
+GroceryItem & GroceryItem::price(double newPrice) &
+{
     _price = newPrice;
     return *this;
 }
@@ -291,15 +292,13 @@ std::weak_ordering GroceryItem::operator<=>( const GroceryItem & rhs ) const noe
   // (sorted) by UPC code, product name, brand name, then price.
 
   ///////////////////////// TO-DO (19) //////////////////////////////
-std::weak_ordering GroceryItem::operator<=>(const GroceryItem & rhs) const noexcept
-{
-    if (auto result = _upcCode <=> rhs._upcCode; result != 0) return result;
-    if (auto result = _productName <=> rhs._productName; result != 0) return result;
-    if (auto result = _brandName <=> rhs._brandName; result != 0) return result;
-    return floating_point_is_equal(_price, rhs._price) 
-           ? std::weak_ordering::equivalent 
-           : _price <=> rhs._price;
-}
+  if (auto r = _upcCode <=> rhs._upcCode; r != 0) return r;
+  if (auto r = _productName <=> rhs._productName; r != 0) return r;
+  if (auto r = _brandName <=> rhs._brandName; r != 0) return r;
+
+  return floating_point_is_equal(_price, rhs._price)
+    ? std::weak_ordering::equivalent
+    : _price <=> rhs._price;
   /////////////////////// END-TO-DO (19) ////////////////////////////
 }
 
@@ -313,13 +312,10 @@ bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept
   // quickest and then the most likely to be different first.
 
   ///////////////////////// TO-DO (20) //////////////////////////////
-bool GroceryItem::operator==(const GroceryItem & rhs) const noexcept
-{
-    return _upcCode == rhs._upcCode &&
-           _brandName == rhs._brandName &&
-           _productName == rhs._productName &&
-           floating_point_is_equal(_price, rhs._price);
-}
+  return    _upcCode     == rhs._upcCode
+         && _brandName   == rhs._brandName
+         && _productName == rhs._productName
+         && floating_point_is_equal(_price, rhs._price);
   /////////////////////// END-TO-DO (20) ////////////////////////////
 }
 
@@ -345,16 +341,15 @@ std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
 
   char delimiter = '\x{00}';                                          // C++23 delimited escape sequence for the character whose value is zero (the null character)
   ///////////////////////// TO-DO (21) //////////////////////////////
-std::istream & operator>>(std::istream & stream, GroceryItem & groceryItem) {
-    GroceryItem working;
-    char comma;
-    stream >> std::quoted(working._upcCode) >> comma
-           >> std::quoted(working._brandName) >> comma
-           >> std::quoted(working._productName) >> comma
-           >> working._price;
+  GroceryItem working;
+  char comma;
+  stream >> std::quoted(working._upcCode) >> comma
+         >> std::quoted(working._brandName) >> comma
+         >> std::quoted(working._productName) >> comma
+         >> working._price;
 
-    if (stream) groceryItem = std::move(working);
-    return stream;
+  if (stream) groceryItem = std::move(working);
+  return stream;
   /////////////////////// END-TO-DO (21) ////////////////////////////
 }
 
@@ -365,10 +360,9 @@ std::istream & operator>>(std::istream & stream, GroceryItem & groceryItem) {
 std::ostream & operator<<( std::ostream & stream, const GroceryItem & groceryItem )
 {
   ///////////////////////// TO-DO (22) //////////////////////////////
-std::ostream & operator<<(std::ostream & stream, const GroceryItem & groceryItem) {
-    return stream << std::quoted(groceryItem._upcCode) << ", "
-                  << std::quoted(groceryItem._brandName) << ", "
-                  << std::quoted(groceryItem._productName) << ", "
-                  << groceryItem._price;
+  return stream << std::quoted(groceryItem.upcCode()) << ", "
+                << std::quoted(groceryItem.brandName()) << ", "
+                << std::quoted(groceryItem.productName()) << ", "
+                << groceryItem.price();
   /////////////////////// END-TO-DO (22) ////////////////////////////
 }
