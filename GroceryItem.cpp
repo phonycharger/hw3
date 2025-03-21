@@ -241,8 +241,8 @@ GroceryItem & GroceryItem::productName( std::string newProductName ) &
 ///////////////////////// TO-DO (17) //////////////////////////////
 GroceryItem & GroceryItem::productName(std::string newProductName) &
 {
-    _productName = std::move(newProductName);
-    return *this;
+  _productName = std::move(newProductName);
+  return *this;
 }
 /////////////////////// END-TO-DO (17) ////////////////////////////
 
