@@ -84,15 +84,13 @@ while (fin >> item)
 
 
 ///////////////////////// TO-DO (3) //////////////////////////////
-GroceryItem * GroceryItemDatabase::find(const std::string & upc)
-{
-    return find(upc, 0);
-}
-
-GroceryItem * GroceryItemDatabase::find(const std::string & upc, std::size_t index)
-{
+GroceryItem * GroceryItemDatabase::find(const std::string & upc, std::size_t index) {
     if (index >= _data.size()) return nullptr;
     if (_data[index].upcCode() == upc) return &_data[index];
     return find(upc, index + 1);
+}
+
+GroceryItem * GroceryItemDatabase::find(const std::string & upc) {
+    return find(upc, 0);
 }
 /////////////////////// END-TO-DO (3) ////////////////////////////
