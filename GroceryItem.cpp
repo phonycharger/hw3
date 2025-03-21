@@ -28,7 +28,7 @@ namespace    // unnamed, anonymous namespace
   constexpr bool floating_point_is_equal( T const lhs,  U const rhs,  long double const EPSILON1 = /*1e-12L*/ 1e-4L,  long double const EPSILON2 = 1e-8L ) noexcept
   {
     ///////////////////////// TO-DO (1) //////////////////////////////
-return std::abs(lhs - rhs) < std::max(EPSILON1, EPSILON2 * std::max(std::abs(lhs), std::abs(rhs)));
+    return std::abs(lhs - rhs) < std::max(EPSILON1, EPSILON2 * std::max(std::abs(lhs), std::abs(rhs)));
     /////////////////////// END-TO-DO (1) ////////////////////////////
   }
 }    // unnamed, anonymous namespace
@@ -50,7 +50,6 @@ GroceryItem::GroceryItem(std::string productName, std::string brandName, std::st
     _brandName(std::move(brandName)),
     _productName(std::move(productName)),
     _price(price)
-{}
 /////////////////////// END-TO-DO (2) ////////////////////////////
 {}                                                                    // Avoid setting values in constructor's body (when possible)
 
