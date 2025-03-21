@@ -105,13 +105,15 @@ return *this;
 
 // Move Assignment Operator
 ///////////////////////// TO-DO (6) //////////////////////////////
-if (this != &rhs) {
-    _upcCode     = std::move(rhs._upcCode);
-    _brandName   = std::move(rhs._brandName);
-    _productName = std::move(rhs._productName);
-    _price       = rhs._price;
+GroceryItem & GroceryItem::operator=(GroceryItem && rhs) & noexcept {
+    if (this != &rhs) {
+        _upcCode     = std::move(rhs._upcCode);
+        _brandName   = std::move(rhs._brandName);
+        _productName = std::move(rhs._productName);
+        _price       = rhs._price;
+    }
+    return *this;
 }
-return *this;
 /////////////////////// END-TO-DO (6) ////////////////////////////
 
 
@@ -215,8 +217,10 @@ return *this;
 
 // brandName(...)
 ///////////////////////// TO-DO (16) //////////////////////////////
-_brandName = std::move(newBrandName);
-return *this;
+GroceryItem & GroceryItem::brandName(std::string newBrandName) & {
+    _brandName = std::move(newBrandName);
+    return *this;
+}
 /////////////////////// END-TO-DO (16) ////////////////////////////
 
 
@@ -225,8 +229,10 @@ return *this;
 // productName(...)
 GroceryItem & GroceryItem::productName( std::string newProductName ) &
 ///////////////////////// TO-DO (17) //////////////////////////////
-_productName = std::move(newProductName);
-return *this;
+GroceryItem & GroceryItem::productName(std::string newProductName) & {
+    _productName = std::move(newProductName);
+    return *this;
+}
 /////////////////////// END-TO-DO (17) ////////////////////////////
 
 
@@ -234,8 +240,10 @@ return *this;
 
 // price(...)
 ///////////////////////// TO-DO (18) //////////////////////////////
-_price = newPrice;
-return *this;
+GroceryItem & GroceryItem::price(double newPrice) & {
+    _price = newPrice;
+    return *this;
+}
 /////////////////////// END-TO-DO (18) ////////////////////////////
 
 
@@ -333,7 +341,6 @@ std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
 
   char delimiter = '\x{00}';                                          // C++23 delimited escape sequence for the character whose value is zero (the null character)
   ///////////////////////// TO-DO (21) //////////////////////////////
-char delimiter{};
 GroceryItem working;
 
 stream >> std::quoted(working._upcCode) >> delimiter
