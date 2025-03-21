@@ -51,7 +51,9 @@ while (fin >> item) {
     _data[item.upcCode()] = std::move(item);
 }
 
-// Add the missing size() definition here
+// << This closes the constructor implementation >>
+
+// Implementation for size() must be placed separately at file scope after the constructor:
 std::size_t GroceryItemDatabase::size() const {
     return _data.size();
 }
