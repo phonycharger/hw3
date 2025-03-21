@@ -157,10 +157,9 @@ if (quantity == 1) {
   void carefully_move_grocery_items( std::stack<GroceryItem> & from, std::stack<GroceryItem> & to )
   {
     ///////////////////////// TO-DO (2) //////////////////////////////
-if (!from.empty()) {
-    trace(from, to, spare);
-    carefully_move_grocery_items(from.size(), from, to, spare);
-}
+std::stack<GroceryItem> spare;
+trace(from, to, spare);
+carefully_move_grocery_items(from.size(), from, to, spare);
     /////////////////////// END-TO-DO (2) ////////////////////////////
   }
 }    // namespace
