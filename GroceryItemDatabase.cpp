@@ -1,9 +1,7 @@
 ///////////////////////// TO-DO (1) //////////////////////////////
-  /// Include necessary header files
-  /// Hint:  Include what you use, use what you include
-  ///
-  /// Do not put anything else in this section, i.e. comments, classes, functions, etc.  Only #include directives
-
+#include <string>
+#include <map>
+#include "GroceryItem.hpp"
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
 
@@ -61,9 +59,7 @@ GroceryItemDatabase::GroceryItemDatabase( const std::string & filename )
   //
 
   ///////////////////////// TO-DO (2) //////////////////////////////
-    /// Hint:  Use your GroceryItem's extraction operator to read GroceryItems, don't reinvent that here.
-    ///        Read grocery items until end of file pushing each grocery item into the data store as they're read.
-
+std::map<std::string, GroceryItem> _data;
   /////////////////////// END-TO-DO (2) ////////////////////////////
 
   // Note:  The file is intentionally not explicitly closed.  The file is closed when fin goes out of scope - for whatever
