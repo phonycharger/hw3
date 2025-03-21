@@ -137,16 +137,16 @@ namespace
   void carefully_move_grocery_items( std::size_t quantity, std::stack<GroceryItem> & broken_cart, std::stack<GroceryItem> & working_cart, std::stack<GroceryItem> & spare_cart )
   {
     ///////////////////////// TO-DO (1) //////////////////////////////
-if(quantity == 1) {
+if (quantity == 1) {
     working_cart.push(broken_cart.top());
     broken_cart.pop();
     trace(broken_cart, working_cart, spare_cart);
 } else {
-    carefully_move_grocery_items(quantity-1, broken_cart, spare_cart, working_cart);
+    carefully_move_grocery_items(quantity - 1, broken_cart, spare_cart, working_cart);
     working_cart.push(broken_cart.top());
     broken_cart.pop();
     trace(broken_cart, working_cart, spare_cart);
-    carefully_move_grocery_items(quantity-1, spare_cart, working_cart, broken_cart);
+    carefully_move_grocery_items(quantity - 1, spare_cart, working_cart, broken_cart);
 }
     /////////////////////// END-TO-DO (1) ////////////////////////////
   }
