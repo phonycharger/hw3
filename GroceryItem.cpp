@@ -239,7 +239,6 @@ GroceryItem & GroceryItem::brandName(std::string newBrandName) & {
 // productName(...)
 GroceryItem & GroceryItem::productName( std::string newProductName ) &
 ///////////////////////// TO-DO (17) //////////////////////////////
-GroceryItem & GroceryItem::productName(std::string newProductName) &
 {
   _productName = std::move(newProductName);
   return *this;
