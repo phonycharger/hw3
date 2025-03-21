@@ -3,7 +3,7 @@
 ///////////////////////// TO-DO (1) //////////////////////////////
 #include <vector>
 #include <string>
-#include <cstddef>  // for size_t
+#include <cstddef>
 #include "GroceryItem.hpp"
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
