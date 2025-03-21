@@ -3,7 +3,7 @@
 ///////////////////////// TO-DO (1) //////////////////////////////
 #include <vector>
 #include <string>
-#include <cstddef>
+#include <cstddef>  
 #include "GroceryItem.hpp"
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
@@ -28,6 +28,8 @@ class GroceryItemDatabase
     GroceryItemDatabase & operator=( const GroceryItemDatabase & ) = delete;    // intentionally prohibit copy assignments
 
     ///////////////////////// TO-DO (2) //////////////////////////////
-std::vector<GroceryItem> _data;
+    std::vector<GroceryItem> _data;
+
+    GroceryItem * find(const std::string & upc, std::size_t index);
     /////////////////////// END-TO-DO (2) ////////////////////////////
 };
