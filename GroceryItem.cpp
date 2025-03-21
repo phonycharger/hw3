@@ -136,7 +136,9 @@ GroceryItem::~GroceryItem() noexcept = default;
 
 // upcCode() const    (L-value objects)
 ///////////////////////// TO-DO (8) //////////////////////////////
-return _upcCode;
+std::string const & GroceryItem::upcCode() const & {
+  return _upcCode;
+}
 /////////////////////// END-TO-DO (8) ////////////////////////////
 
 
@@ -155,14 +157,18 @@ return _brandName;
 
 // productName() const    (L-value objects)
 ///////////////////////// TO-DO (10) //////////////////////////////
-return _productName;
+std::string const & GroceryItem::productName() const & {
+  return _productName;
+}
 /////////////////////// END-TO-DO (10) ////////////////////////////
 
 
 
 // price() const    (L-value and, because there is no R-value overload, R-value objects)
 ///////////////////////// TO-DO (11) //////////////////////////////
-return _price;
+double GroceryItem::price() const & {
+  return _price;
+}
 /////////////////////// END-TO-DO (11) ////////////////////////////
 
 
@@ -170,7 +176,9 @@ return _price;
 
 // upcCode()    (R-value objects)
 ///////////////////////// TO-DO (12) //////////////////////////////
-return std::move(_upcCode);
+std::string GroceryItem::upcCode() && {
+  return std::move(_upcCode);
+}
 /////////////////////// END-TO-DO (12) ////////////////////////////
 
 
@@ -178,7 +186,9 @@ return std::move(_upcCode);
 
 // brandName()    (R-value objects)
 ///////////////////////// TO-DO (13) //////////////////////////////
-return std::move(_brandName);
+std::string GroceryItem::brandName() && {
+  return std::move(_brandName);
+}
 /////////////////////// END-TO-DO (13) ////////////////////////////
 
 
@@ -230,8 +240,8 @@ GroceryItem & GroceryItem::brandName(std::string newBrandName) & {
 GroceryItem & GroceryItem::productName( std::string newProductName ) &
 ///////////////////////// TO-DO (17) //////////////////////////////
 GroceryItem & GroceryItem::productName(std::string newProductName) & {
-    _productName = std::move(newProductName);
-    return *this;
+  _productName = std::move(newProductName);
+  return *this;
 }
 /////////////////////// END-TO-DO (17) ////////////////////////////
 
