@@ -292,13 +292,16 @@ std::weak_ordering GroceryItem::operator<=>( const GroceryItem & rhs ) const noe
   // (sorted) by UPC code, product name, brand name, then price.
 
   ///////////////////////// TO-DO (19) //////////////////////////////
-  if (auto r = _upcCode <=> rhs._upcCode; r != 0) return r;
-  if (auto r = _productName <=> rhs._productName; r != 0) return r;
-  if (auto r = _brandName <=> rhs._brandName; r != 0) return r;
+if (auto r = _upcCode <=> rhs._upcCode; r != 0) return r;   // strings return std::strong_ordering, convertible to weak
+if (auto r = _productName <=> rhs._productName; r != 0) return r;
+if (auto r = _brandName <=> rhs._brandName; r != 0) return r;
 
-  return floating_point_is_equal(_price, rhs._price)
-    ? std::weak_ordering::equivalent
-    : _price <=> rhs._price;
+// For the floating point price, use our floating_point_is_equal
+if (floating_point_is_equal(_price, rhs._price))
+{
+    return std::weak_ordering::equivalent;
+}
+return (_price < rhs._price) ? std::weak_ordering::less : std::weak_ordering::greater;
   /////////////////////// END-TO-DO (19) ////////////////////////////
 }
 
@@ -341,15 +344,17 @@ std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
 
   char delimiter = '\x{00}';                                          // C++23 delimited escape sequence for the character whose value is zero (the null character)
   ///////////////////////// TO-DO (21) //////////////////////////////
-  GroceryItem working;
-  char comma;
-  stream >> std::quoted(working._upcCode) >> comma
-         >> std::quoted(working._brandName) >> comma
-         >> std::quoted(working._productName) >> comma
-         >> working._price;
+(void)delimiter;  // Silence unused variable warning
 
-  if (stream) groceryItem = std::move(working);
-  return stream;
+GroceryItem working;
+char comma;
+stream >> std::quoted(working._upcCode) >> comma
+       >> std::quoted(working._brandName) >> comma
+       >> std::quoted(working._productName) >> comma
+       >> working._price;
+
+if (stream) groceryItem = std::move(working);
+return stream;
   /////////////////////// END-TO-DO (21) ////////////////////////////
 }
 
