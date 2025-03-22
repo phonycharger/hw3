@@ -2,9 +2,9 @@
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
-#include <filesystem>
 #include <iterator>
 #include <utility>
+#include <filesystem>
 #include "GroceryItemDatabase.hpp"
 /////////////////////// END-TO-DO (1) ////////////////////////////
 
@@ -63,18 +63,11 @@ GroceryItemDatabase::GroceryItemDatabase( const std::string & filename )
   //
 
   ///////////////////////// TO-DO (2) //////////////////////////////
-GroceryItemDatabase::GroceryItemDatabase(const std::string & filename)
-{
-    std::ifstream fin(filename);
-    if (!fin) {
-        std::cerr << "Warning: Could not open file " << filename << "\n";
-    }
-    // Read items from fin into _data
-    GroceryItem item;
-    while (fin >> item) {
-        _data[item.upcCode()] = std::move(item);
-    }
-}
+  GroceryItem item;
+  while( fin >> item )
+  {
+    _data.push_back( std::move(item) );
+  }
   /////////////////////// END-TO-DO (2) ////////////////////////////
 
   // Note:  The file is intentionally not explicitly closed.  The file is closed when fin goes out of scope - for whatever
@@ -91,13 +84,15 @@ GroceryItemDatabase::GroceryItemDatabase(const std::string & filename)
 
 
 ///////////////////////// TO-DO (3) //////////////////////////////
-GroceryItem * GroceryItemDatabase::find(const std::string & upc, std::size_t index) {
-    if (index >= _data.size()) return nullptr;
-    if (_data[index].upcCode() == upc) return &_data[index];
-    return find(upc, index + 1);
+GroceryItem * GroceryItemDatabase::find( const std::string & upc )
+{
+  return find( upc, 0 );
 }
 
-GroceryItem * GroceryItemDatabase::find(const std::string & upc) {
-    return find(upc, 0);
+GroceryItem * GroceryItemDatabase::find( const std::string & upc, std::size_t index )
+{
+  if( index >= _data.size() ) return nullptr;
+  if( _data[index].upcCode() == upc ) return &_data[index];
+  return find( upc, index + 1 );
 }
 /////////////////////// END-TO-DO (3) ////////////////////////////
