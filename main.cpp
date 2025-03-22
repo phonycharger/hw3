@@ -137,17 +137,20 @@ namespace
   void carefully_move_grocery_items( std::size_t quantity, std::stack<GroceryItem> & broken_cart, std::stack<GroceryItem> & working_cart, std::stack<GroceryItem> & spare_cart )
   {
     ///////////////////////// TO-DO (1) //////////////////////////////
-if (quantity == 1) {
+  if (quantity == 1)
+  {
     working_cart.push(std::move(broken_cart.top()));
     broken_cart.pop();
     trace(broken_cart, working_cart, spare_cart);
-} else {
-    carefully_move_grocery_items(quantity-1, broken_cart, spare_cart, working_cart);
+  }
+  else
+  {
+    carefully_move_grocery_items(quantity - 1, broken_cart, spare_cart, working_cart);
     working_cart.push(std::move(broken_cart.top()));
     broken_cart.pop();
     trace(broken_cart, working_cart, spare_cart);
-    carefully_move_grocery_items(quantity-1, spare_cart, working_cart, broken_cart);
-}
+    carefully_move_grocery_items(quantity - 1, spare_cart, working_cart, broken_cart);
+  }
     /////////////////////// END-TO-DO (1) ////////////////////////////
   }
 
@@ -157,9 +160,11 @@ if (quantity == 1) {
   void carefully_move_grocery_items( std::stack<GroceryItem> & from, std::stack<GroceryItem> & to )
   {
     ///////////////////////// TO-DO (2) //////////////////////////////
-std::stack<GroceryItem> spare;
-trace(from, to, spare);
-carefully_move_grocery_items(from.size(), from, to, spare);
+  if (from.empty()) return;  // Ensure there's something to move
+
+  std::stack<GroceryItem> spare;
+  trace(from, to, spare);
+  carefully_move_grocery_items(from.size(), from, to, spare);
     /////////////////////// END-TO-DO (2) ////////////////////////////
   }
 }    // namespace
@@ -217,11 +222,12 @@ carefully_move_grocery_items(myCart, workingCart);
 
     // Time to checkout and pay for all this stuff.  Find a checkout line and start placing grocery items on the counter's conveyor belt
     ///////////////////////// TO-DO (6) //////////////////////////////
-std::queue<GroceryItem> checkoutCounter;
-while (!workingCart.empty()) {
-    checkoutCounter.push(std::move(workingCart.top()));
-    workingCart.pop();
-}
+    std::queue<GroceryItem> checkoutCounter;
+    while (!workingCart.empty())
+    {
+      checkoutCounter.push(std::move(workingCart.top()));
+      workingCart.pop();
+    }
     /////////////////////// END-TO-DO (6) ////////////////////////////
 
 
@@ -233,19 +239,24 @@ while (!workingCart.empty()) {
                                                                                             // contains the full description and price of the grocery item.
 
     ///////////////////////// TO-DO (7) //////////////////////////////
-while (!checkoutCounter.empty()) {
-    auto & frontItem = checkoutCounter.front();
-    GroceryItem * found = worldWideDatabase.find(frontItem.upcCode());
-    if (found != nullptr) {
+while (!checkoutCounter.empty())
+    {
+      auto & frontItem = checkoutCounter.front();
+      GroceryItem * found = worldWideDatabase.find(frontItem.upcCode());
+
+      if (found != nullptr)
+      {
         amountDue += found->price();
-        std::cout << *found << '\n';
-    } else {
-        std::cout << "UPC("
-                  << '"' << frontItem.upcCode() << '"'
-                  << ") not found => free!\n";
+        std::cout << *found << '\n'; // Use the insertion operator from GroceryItem
+      }
+      else
+      {
+        std::cout << '"' << frontItem.upcCode() << '"'
+                  << ", \"" << frontItem.productName()
+                  << "\" is free!\n";
+      }
+      checkoutCounter.pop();
     }
-    checkoutCounter.pop();
-}
     /////////////////////// END-TO-DO (7) ////////////////////////////
 
 
