@@ -65,14 +65,16 @@ GroceryItemDatabase::GroceryItemDatabase( const std::string & filename )
   ///////////////////////// TO-DO (2) //////////////////////////////
 GroceryItemDatabase::GroceryItemDatabase(const std::string & filename)
 {
-    // constructor code, e.g. read from file into _data
+    std::ifstream fin(filename, std::ios::binary);
+    if(!fin.is_open()) {
+        std::cerr << "Warning: Could not open file\n";
+    }
     GroceryItem item;
     while (fin >> item) {
         _data[item.upcCode()] = std::move(item);
     }
-}  // end constructor
+}
 
-// define size() after constructor
 std::size_t GroceryItemDatabase::size() const
 {
     return _data.size();
