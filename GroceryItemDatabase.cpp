@@ -65,19 +65,15 @@ GroceryItemDatabase::GroceryItemDatabase( const std::string & filename )
   ///////////////////////// TO-DO (2) //////////////////////////////
 GroceryItemDatabase::GroceryItemDatabase(const std::string & filename)
 {
-    std::ifstream fin(filename, std::ios::binary);
-    if(!fin.is_open()) {
-        std::cerr << "Warning: Could not open file\n";
+    std::ifstream fin(filename);
+    if (!fin) {
+        std::cerr << "Warning: Could not open file " << filename << "\n";
     }
+    // Read items from fin into _data
     GroceryItem item;
     while (fin >> item) {
         _data[item.upcCode()] = std::move(item);
     }
-}
-
-std::size_t GroceryItemDatabase::size() const
-{
-    return _data.size();
 }
   /////////////////////// END-TO-DO (2) ////////////////////////////
 
