@@ -67,9 +67,6 @@ GroceryItem::GroceryItem(const GroceryItem & other)
     _brandName(other._brandName),
     _productName(other._productName),
     _price(other._price)
-std::size_t GroceryItemDatabase::size() const {
-    return _data.size();
-}
 /////////////////////// END-TO-DO (3) ////////////////////////////
 {}                                                                    // Avoid setting values in constructor's body (when possible)
 
