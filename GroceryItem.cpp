@@ -46,15 +46,14 @@ return std::abs(lhs - rhs)
 
 // Default and Conversion Constructor
 ///////////////////////// TO-DO (2) //////////////////////////////
-GroceryItem item;
-while (fin >> item) {
-    _data[item.upcCode()] = std::move(item);
-}
-
-// define size() so we can link successfully
-std::size_t GroceryItemDatabase::size() const {
-    return _data.size();
-}
+GroceryItem::GroceryItem(std::string productName,
+                         std::string brandName,
+                         std::string upcCode,
+                         double price)
+  : _upcCode(std::move(upcCode)),
+    _brandName(std::move(brandName)),
+    _productName(std::move(productName)),
+    _price(price)
 /////////////////////// END-TO-DO (2) ////////////////////////////
 {}                                                                    // Avoid setting values in constructor's body (when possible)
 
