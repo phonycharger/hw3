@@ -68,6 +68,9 @@ while (fin >> item)
 {
     _data.push_back(std::move(item));
 }
+std::size_t GroceryItemDatabase::size() const {
+    return _data.size();
+}
   /////////////////////// END-TO-DO (2) ////////////////////////////
 
   // Note:  The file is intentionally not explicitly closed.  The file is closed when fin goes out of scope - for whatever
